@@ -68,6 +68,7 @@ delete_photo_btn.addEventListener("click", function(e) {
 
 api_request.addEventListener("click", function(e) {
   api_request.classList.add("disabled");
+  translate_photo.classList.add("disabled");
   image.classList.remove("visible");
   image.style.width = '224px';
   image.style.height = '224px';
@@ -76,9 +77,9 @@ api_request.addEventListener("click", function(e) {
   var me = "14478f483amshce21a80cf4fc7f8p1e1f28jsn1a007f1c3c58";
   classifier.predict(image)
     .then(function(results, err) {
-      image.classList.add("visible");
       image.style.width = '100%';
       image.style.height = '100%';
+      image.classList.add("visible");
       console.log("Success! on first request");
       category_result.innerHTML =
         "Keyword detected - " + results[0].className;
@@ -92,6 +93,7 @@ api_request.addEventListener("click", function(e) {
     .then(function(product) {
       console.log("Success! on second request");
       api_request.classList.remove("disabled");
+      translate_photo.classList.remove("disabled");
       console.log(
         JSON.parse(product.responseText).Products[0].Product.reviewUrlPC
       );
@@ -105,12 +107,14 @@ api_request.addEventListener("click", function(e) {
     .catch(function(error) {
       console.log("Something went wrong", error);
       api_request.classList.remove("disabled");
+      translate_photo.classList.remove("disabled");
       alert(JSON.stringify(error));
     });
 });
 
 translate_photo.addEventListener("click", function(e) {
   api_request.classList.add("disabled");
+  translate_photo.classList.add("disabled");
   image.classList.remove("visible");
   image.style.width = '224px';
   image.style.height = '224px';
@@ -120,9 +124,9 @@ translate_photo.addEventListener("click", function(e) {
   var me = "14478f483amshce21a80cf4fc7f8p1e1f28jsn1a007f1c3c58";
   classifier.predict(image)
     .then(function(results, err) {
-      image.classList.add("visible");
       image.style.width = '100%';
       image.style.height = '100%';
+      image.classList.add("visible");
       console.log("Success! on first request");
       category_result.innerHTML =
         "Keyword detected - " + results[0].className;
@@ -147,6 +151,7 @@ translate_photo.addEventListener("click", function(e) {
     .then(function(product) {
       console.log("Success! on third request");
       api_request.classList.remove("disabled");
+      translate_photo.classList.remove("disabled");
       console.log(
         JSON.parse(product.responseText).Products[0].Product.reviewUrlPC
       );
@@ -160,6 +165,7 @@ translate_photo.addEventListener("click", function(e) {
     .catch(function(error) {
       console.log("Something went wrong", error);
       api_request.classList.remove("disabled");
+      translate_photo.classList.remove("disabled");
       alert(JSON.stringify(error));
     });
 });
