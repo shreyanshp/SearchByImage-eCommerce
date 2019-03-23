@@ -1,0 +1,17 @@
+{
+  "name": "RakutenRapidAPI-Workshop-Series-2",
+  "version": "1.0.0",
+  "description": "Simple Point-Shoot-RequestAPI App",
+  "main": "index.html",
+  "scripts": {
+    "start": "parcel index.html --open",
+    "build": "parcel build index.html"
+  },
+  "dependencies": {
+    "unirest": "0.6.0"
+  },
+  "devDependencies": {
+    "@babel/core": "7.2.0",
+    "parcel-bundler": "^1.6.1"
+  }
+}

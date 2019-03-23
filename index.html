@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>SearchByImage-eCommerce</title>
+    <link rel="stylesheet" type="text/css" href="src/cam.css" />
+    <script src="https://unpkg.com/ml5@0.1.3/dist/ml5.min.js"></script>
+    <meta charset="UTF-8" />
+  </head>
+
+  <body>
+    <div class="container">
+      <div class="app">
+        <a href="#" id="start-camera" class="visible"
+          >Touch here to start the app.</a
+        >
+        <video id="camera-stream"></video> <img id="snap" />
+
+        <p id="error-message"></p>
+
+        <div class="controls">
+          <a href="#" id="delete-photo" title="Delete Photo" class="disabled"
+            ><i class="material-icons">delete</i></a
+          >
+          <a
+            href="#"
+            id="download-photo"
+            download="RakutenRapidAPI.png"
+            title="Save Photo"
+            class="disabled"
+            ><i class="material-icons">file_download</i></a
+          >
+          <a href="#" id="take-photo" title="Take Photo"
+            ><i class="material-icons">camera_alt</i></a
+          >
+          <a href="#" id="api-photo" title="Send API Request" class="disabled"
+            ><i class="material-icons">share</i></a
+          >
+          <a href="#" id="change-camera" title="user" class="enabled"
+            ><i class="material-icons">switch_camera</i></a
+          >
+        </div>
+
+        <!-- Hidden canvas element. Used for taking snapshot of video. -->
+        <canvas></canvas>
+      </div>
+    </div>
+    <h3>SearchByImage-eCommerce!</h3>
+    <h6 id="detected-category"></h6>
+    <h6 id="detected-producturl"></h6>
+    <script src="src/index.js"></script>
+  </body>
+</html>
