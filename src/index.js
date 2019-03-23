@@ -9,7 +9,7 @@ var video = document.querySelector("#camera-stream"),
   controls = document.querySelector(".controls"),
   take_photo_btn = document.querySelector("#take-photo"),
   delete_photo_btn = document.querySelector("#delete-photo"),
-  download_photo_btn = document.querySelector("#download-photo"),
+  translate_photo = document.querySelector("#translate-photo"),
   error_message = document.querySelector("#error-message"),
   api_request = document.querySelector("#api-photo"),
   camera_change = document.querySelector("#change-camera"),
@@ -43,10 +43,8 @@ take_photo_btn.addEventListener("click", function(e) {
 
   // Enable delete and save buttons
   delete_photo_btn.classList.remove("disabled");
-  download_photo_btn.classList.remove("disabled");
+  translate_photo.classList.remove("disabled");
   api_request.classList.remove("disabled");
-  // Set the href attribute of the download button to the snap url.
-  download_photo_btn.href = snap;
 
   // Pause video playback of stream.
   video.pause();
@@ -61,7 +59,7 @@ delete_photo_btn.addEventListener("click", function(e) {
 
   // Disable delete and save buttons
   delete_photo_btn.classList.add("disabled");
-  download_photo_btn.classList.add("disabled");
+  translate_photo.classList.add("disabled");
   api_request.classList.add("disabled");
 
   // Resume playback of stream.
@@ -111,13 +109,68 @@ api_request.addEventListener("click", function(e) {
     });
 });
 
+translate_photo.addEventListener("click", function(e) {
+  api_request.classList.add("disabled");
+  image.classList.remove("visible");
+  image.style.width = '224px';
+  image.style.height = '224px';
+  var translateUrl = "https://systran-systran-platform-for-language-processing-v1.p.rapidapi.com/translation/text/translate?source=en&target=ja&input=";
+  var ecommerceUrl =
+    "https://rakuten_webservice-rakuten-marketplace-product-search-v1.p.rapidapi.com/services/api/Product/Search/20170426?keyword=";
+  var me = "14478f483amshce21a80cf4fc7f8p1e1f28jsn1a007f1c3c58";
+  classifier.predict(image)
+    .then(function(results, err) {
+      image.classList.add("visible");
+      image.style.width = '100%';
+      image.style.height = '100%';
+      console.log("Success! on first request");
+      category_result.innerHTML =
+        "Keyword detected - " + results[0].className;
+      return sendRequest(
+        translateUrl + results[0].className,
+        "GET",
+        "",
+        me
+      );
+    })
+    .then(function(translate){
+      console.log("Success! on second request");
+      category_result.innerHTML =
+        "Keyword translated to - " + JSON.parse(translate.responseText).outputs[0].output;
+      return sendRequest(
+        ecommerceUrl + JSON.parse(translate.responseText).outputs[0].output,
+        "GET",
+        "",
+        me
+      );
+    }) 
+    .then(function(product) {
+      console.log("Success! on third request");
+      api_request.classList.remove("disabled");
+      console.log(
+        JSON.parse(product.responseText).Products[0].Product.reviewUrlPC
+      );
+      productUrl_result.innerHTML =
+        "<a href='" +
+        JSON.parse(product.responseText).Products[0].Product.productUrlPC +
+        "'target='_blank'> <img src='" +
+        JSON.parse(product.responseText).Products[0].Product.mediumImageUrl +
+        "'></a>";
+    })
+    .catch(function(error) {
+      console.log("Something went wrong", error);
+      api_request.classList.remove("disabled");
+      alert(JSON.stringify(error));
+    });
+});
+
 camera_change.addEventListener("click", function(e) {
   // Hide image.
   image.setAttribute("src", "");
   image.classList.remove("visible");
   // Disable delete and save buttons
   delete_photo_btn.classList.add("disabled");
-  download_photo_btn.classList.add("disabled");
+  translate_photo.classList.add("disabled");
   api_request.classList.add("disabled");
   //stop current camera
   video.srcObject.getVideoTracks()[0].stop();
