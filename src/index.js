@@ -106,6 +106,9 @@ api_request.addEventListener("click", function(e) {
     })
     .catch(function(error) {
       console.log("Something went wrong", error);
+      image.style.width = '100%';
+      image.style.height = '100%';
+      image.classList.add("visible");
       api_request.classList.remove("disabled");
       translate_photo.classList.remove("disabled");
       alert(JSON.stringify(error));
